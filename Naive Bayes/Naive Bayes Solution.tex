@@ -1,0 +1,110 @@
+\documentclass[a4paper]{article}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{amsthm}
+\usepackage{listings}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{definition}
+\newtheorem{corollary}{Corollary}
+\usepackage{bm}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{multirow,array}
+\usepackage{amsmath}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+\begin{document}
+	\LARGE{	\begin{center}
+		Training Naive Bayes 
+		\end{center}
+	}
+	\normalsize{\begin{center}
+			02/01/2015~~WEI PENG
+		\end{center}
+	}	
+	\noindent 
+	a) Complete the function $logProd(x)$ with takes as input a vector of numbers in logspace (i.e., $x_i=\log p_i$) and returns the product of those numbers in logspace-i.e.$logProd(x)=\log(\Pi_ip_i)$.
+	\lstinputlisting{logProd.m}
+%\begin{lstlisting}
+%	 a = 1; 
+%	 b = 2; 
+%	 c = a^2 + b^2; 
+%	\end{lstlisting} 
+	b) Complete the fucntion $[D]=NB_XGivenY(XTrain,yTrain)$. The output $D$ is a $2\times V$ matrix, where for any word index $\omega\in {1,\dots,V}$ and class index $y\in {0,1}$, the entry $D(y,w)$ is the $MAP$ estimator of $\theta_{yw}=P(X_w=1|Y=y)$ with a Beta(1,2) prior distribution.
+	\lstinputlisting{NB_XGivenY.m}
+	c) Complete the function $[p]=NB_YPrior(yTrain)$. The output $p$ is the MLE for $\rho=P(Y=1)$.
+	\lstinputlisting{NB_YPrior.m}
+	d) Complete the function $[yHat]=NB_cLASSIFY(D,P,X)$. The input $X$ is an $n\times V$ matrix containing $n$ feature vectors(stored as rows). The output $yHat$ is an $n\times 1$ vector of predicted class labels, where $yHat(i)$ is the predicted label for the $i^{th}$ row of $X$.(Hint: In this function, you will want to use the $logProd$ function to avoid numerical problems).
+	\lstinputlisting{NB_Classify.m}
+	e) Complete the function $[error]=ClassificationError(yHat,yTruth)$, which takes two vectors of equal length and returns the proportion of entries that they agre on. 
+	\lstinputlisting{ClassificationError.m}
+$\bm{Questions}$
+f) Train your classifier on the data contained in $\bm{XTrain}$, and $yTrain$ by running\\
+\\
+\textbf{$D=NB_XGivenY(Xtrain,yTrain)$}\\
+\textbf{$P=NB_YPrior(yTrain)$}\\
+\\
+Use the learned classifier to predict the labels for the article feature vectors in $\bm{XTrain}$ and $\bm{XTest}$ by running\\
+\\
+\textbf{$yHatTrain=NB_{-}Classify(D,P,XTrain)$}\\
+\textbf{$yHatTest=NB_{-}Classify(D,P,XTest)$}\\
+\\
+Use the function $ClassificationError$ to measure and report the training and testing error by running \\
+\\
+\textbf{$trainError= ClassificationError(yHatTrain, yTrain)$}\\
+\textbf{$testError= ClassificationError(yHatTest, yTest)$}\\
+\\
+(1) How do the train and test errors compare? Explain ang significant difference.
+
+\hangafter=1
+\hangindent 1.5em
+\noindent
+A:\\
+trainError=0, testError=0.0207.\\
+
+\noindent
+g) Repeat the steps from part f), but this time use the smaller trainning set $XTrainSmall$ and $yTrainSmall$. Explain any difference between the train and test error in the question and in part (f)[Hint: When we have less training data, does the prior have more or less impact on our classifier?]\\
+(1) Explain any differences between the train errors in this questions and in part (f).\\
+(2) Explain any differences between the test errors in this questions and in part (f).
+
+\hangafter=1
+\hangindent 1.5em
+\noindent
+A:\\
+(1) trainErrorSmall$=$0.0966$>$0$=$trainError\\
+(2) testErrorSmall$=$0.2759$>$0.0207$=$testError\\
+
+\noindent
+h) Finally we will try to interpret the learned parameters. Train your classifier on the data contained in $XTrain$ and $yTrain$. For each class label $y\in {0,1}$, list the six words that the model says are most likely to occur in a document from class y. Also for each class labekl $y\in{0,1}$, list the six words $\omega$ that maximize the following quantity:
+\[\frac{P(X_{\omega}=1|Y=y)}{P(X_{\omega}=1|Y\neq y)}
+\]
+\lstinputlisting{Max8.m}
+\noindent
+(1) Give one word in the top eight highest probabilityies $P(X_{\omega}=1|Y=0)$(i.e. words most likely to appear in Economist articles)\\
+\noindent
+A: 'is'    'that'    'a'      'and'    'of'    'in'      'the'    'to' \\
+
+\noindent
+(2) Give one word in the top eight highest probabilityies $P(X_{\omega}=1|Y=1)$(i.e. words most likely to appear in Onion articles).\\
+\noindent
+A: 
+     'a'     'and'     'the'    'to'     'of'    'said'    'in'     'for'\\
+     
+
+\noindent
+(3) Give one word in the top eight that maximize the quantity in Euqation for $y=0$.\\
+\noindent
+A:   'parliamentari'    'neighbour'    'labour'    '1990s'     'centr'      'favour'    'reckon'     'organis'\\
+
+\noindent
+(4) Give one word in the top eight that maximize the quantity in Euqation for $y=1$.\\
+\noindent
+A:   'favorit'          'tuesday'      'coach'     'realiz'    'percent'    'monday'    '5enlarg'    '4enlarg'\\
+
+\noindent
+(5) Which list of words describels the two classes better?\\
+\noindent
+A: The second list of words describes the two classes better.
+
+
+\end{document}
