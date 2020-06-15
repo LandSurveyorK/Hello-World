@@ -1,2 +1,1 @@
-# Hello-World
-Wei's Coding Kingdom
+Implementation of Naive Bayes
